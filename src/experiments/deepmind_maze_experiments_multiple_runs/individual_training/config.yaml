@@ -1,0 +1,418 @@
+model_files:
+  - "experiments/deepmind_maze_experiments_multiple_runs/config_files/models.yaml"
+
+models:
+
+  dpf_full_training:
+    type: "KDEParticleFilter"
+
+    # Note: if this is true then we assume the model output is in log space
+    weight_divide_by_proposal_probability: False
+
+    # If we should use particle encoding
+    encode_particles: True
+    decouple_particle_encoders: True
+
+    # We want to stop the gradient at every timestep
+    use_differentiable_resampling: False
+
+    # Dont decouple when training the weights
+    decouple_weights_for_resampling: False
+    decouple_bandwidths_for_resampling: False
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+    # We need a particle transformer for the deepmind dataset
+    particle_transformer: 
+      transformer_type: "DeepMindTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+
+
+experiments:
+###############################################################################################################################################################
+###############################################################################################################################################################
+# ████████╗██████╗  █████╗ ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ 
+# ╚══██╔══╝██╔══██╗██╔══██╗██║████╗  ██║██║████╗  ██║██╔════╝ 
+#    ██║   ██████╔╝███████║██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗
+#    ██║   ██╔══██╗██╔══██║██║██║╚██╗██║██║██║╚██╗██║██║   ██║
+#    ██║   ██║  ██║██║  ██║██║██║ ╚████║██║██║ ╚████║╚██████╔╝
+#    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+
+###############################################################################################################################################################
+# Maze 1
+###############################################################################################################################################################
+
+  - initializer_maze_1:
+      do_run: False
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_maze_1/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_initializer.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav01_train"]
+          validation: ["nav01_train"]
+
+  - proposal_maze_1:
+      do_run: false
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_1/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_proposals.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav01_train"]
+          validation: ["nav01_train"]
+
+  - weight_training_maze_1:
+      do_run: true
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_1/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_weights.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav01_train"]
+          validation: ["nav01_train"]
+
+###############################################################################################################################################################
+# Maze 2
+###############################################################################################################################################################
+
+  - initializer_maze_2:
+      do_run: False
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_maze_2/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_initializer.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav02_train"]
+          validation: ["nav02_train"]
+
+  - proposal_maze_2:
+      do_run: false
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_2/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_proposals.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav02_train"]
+          validation: ["nav02_train"]
+
+  - weight_training_maze_2:
+      do_run: true
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_2/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_weights.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav02_train"]
+          validation: ["nav02_train"]
+
+###############################################################################################################################################################
+# Maze 3
+###############################################################################################################################################################
+
+  - initializer_maze_3:
+      do_run: False
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_maze_3/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_initializer.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav03_train"]
+          validation: ["nav03_train"]
+
+  - proposal_maze_3:
+      do_run: false
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_3/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_proposals.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav03_train"]
+          validation: ["nav03_train"]
+
+  - weight_training_maze_3:
+      do_run: true
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_3/"
+      common_parameters_file: "experiments/deepmind_maze_experiments_multiple_runs/config_files/common_parameters_individial_weights.yaml" 
+
+      dataset_params:
+        filenames:
+          training: ["nav03_train"]
+          validation: ["nav03_train"]
+          
+###############################################################################################################################################################
+###############################################################################################################################################################
+# ███████╗██╗   ██╗ █████╗ ██╗     ██╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+# ██╔════╝██║   ██║██╔══██╗██║     ██║   ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+# █████╗  ██║   ██║███████║██║     ██║   ██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+# ██╔══╝  ╚██╗ ██╔╝██╔══██║██║     ██║   ██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+# ███████╗ ╚████╔╝ ██║  ██║███████╗╚██████╔╝██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+# ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝                                                                             
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+
+
+  - initializer_evaluation_maze_1:
+      do_run: False
+      application: deepmind_maze
+      experiement_type: evaluation
+      evaluation_type: initilizer
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_evaluation_maze_1/"
+      device: "cuda_auto"
+
+      model_params:
+        main_model: "dpf_full_training"
+
+        sub_models:
+          proposal_model: "proposal_model"
+          observation_model: "observation_model"
+          weight_model: "weight_model"
+          particle_encoder_for_particles_model: "particle_encoder_particles"
+          particle_encoder_for_weights_model: "particle_encoder_weights"
+          initializer_model: "initializer_model"
+          resampling_weight_model: "weight_model"
+          bandwidth_model: "bandwidth_model"
+          resampling_bandwidth_model: "resampling_bandwidth_model"
+
+      pre_trained_models:             
+            initializer_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_maze_1/models/initializer_model_best.pt"
+            observation_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/initializer_maze_1/models/observation_encoder_best.pt"
+
+      dataset_params:
+        use_actions: True
+        subsequence_length: 1
+        dataset_directory: "../data/deep_mind_localization/data/100s/"
+
+        filenames:
+          evaluation: ["nav01_train"]
+
+      evaluation_params:
+        number_to_render: 16
+        number_of_particles: 50
+        render_particles: True
+
+        # The parameters fro the KDE that will be used for this model
+        kde_params:
+          dims:
+            0:
+                distribution_type: "Normal"
+            1:
+                distribution_type: "Normal"
+            2:
+                distribution_type: "Von_Mises"
+
+
+  - proposal_evaluation_maze_1:
+      do_run: false
+      application: deepmind_maze
+      experiement_type: evaluation
+      evaluation_type: proposal
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_evaluation_maze_1/"
+      device: "cuda_auto"
+
+      model_params:
+        main_model: "dpf_full_training"
+
+        sub_models:
+          action_encoder_model: action_encoder
+          proposal_model: "proposal_model"
+          observation_model: "observation_model"
+          weight_model: "weight_model"
+          particle_encoder_for_particles_model: "particle_encoder_particles"
+          particle_encoder_for_weights_model: "particle_encoder_weights"
+          initializer_model: "initializer_model"
+          resampling_weight_model: "weight_model"
+          bandwidth_model: "bandwidth_model"
+          resampling_bandwidth_model: "resampling_bandwidth_model"
+
+      pre_trained_models: 
+          particle_encoder_for_particles_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_1/models/particle_encoder_for_particles_model_best.pt"
+          proposal_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_1/models/proposal_model_best.pt"
+          action_encoder_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_1/models/action_encoder_model_best.pt"
+
+      dataset_params:
+        use_actions: True
+        subsequence_length: 2
+        dataset_directory: "../data/deep_mind_localization/data/100s/"
+
+        filenames:
+          evaluation: ["nav01_train"]
+
+      evaluation_params:
+        number_to_render: 16
+        number_of_particles: 50
+        render_particles: True
+
+        # The parameters fro the KDE that will be used for this model
+        kde_params:
+          dims:
+            0:
+                distribution_type: "Normal"
+            1:
+                distribution_type: "Normal"
+            2:
+                distribution_type: "Von_Mises"
+
+
+  - proposal_evaluation_maze_2:
+      do_run: false
+      application: deepmind_maze
+      experiement_type: evaluation
+      evaluation_type: proposal
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_evaluation_maze_2/"
+      device: "cuda_auto"
+
+      model_params:
+        main_model: "dpf_full_training"
+
+        sub_models:
+          proposal_model: "proposal_model"
+          observation_model: "observation_model"
+          weight_model: "weight_model"
+          particle_encoder_for_particles_model: "particle_encoder_particles"
+          particle_encoder_for_weights_model: "particle_encoder_weights"
+          initializer_model: "initializer_model"
+          resampling_weight_model: "weight_model"
+          bandwidth_model: "bandwidth_model"
+          resampling_bandwidth_model: "resampling_bandwidth_model"
+
+      pre_trained_models: 
+          particle_encoder_for_particles_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_2/models/particle_encoder_for_particles_model_best.pt"
+          proposal_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_2/models/proposal_model_best.pt"
+          action_encoder_model: "./experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/proposal_maze_2/models/action_encoder_model_best.pt"
+
+
+      dataset_params:
+        use_actions: True
+        subsequence_length: 2
+        dataset_directory: "../data/deep_mind_localization/data/100s/"
+
+        filenames:
+          evaluation: ["nav01_train"]
+
+      evaluation_params:
+        number_to_render: 16
+        number_of_particles: 50
+        render_particles: True
+
+        # The parameters fro the KDE that will be used for this model
+        kde_params:
+          dims:
+            0:
+                distribution_type: "Normal"
+            1:
+                distribution_type: "Normal"
+            2:
+                distribution_type: "Von_Mises"
+
+
+
+
+  - weight_evaluation_maze_1:
+      do_run: true
+      application: deepmind_maze
+      experiement_type: evaluation
+      evaluation_type: weight
+      save_dir: "experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_evaluation_maze_1/"
+      device: "cuda_auto"
+
+      model_params:
+        main_model: "dpf_full_training"
+
+        sub_models:
+          action_encoder_model: action_encoder
+          proposal_model: "proposal_model"
+          observation_model: "observation_model"
+          weight_model: "weight_model"
+          particle_encoder_for_particles_model: "particle_encoder_particles"
+          particle_encoder_for_weights_model: "particle_encoder_weights"
+          initializer_model: "initializer_model"
+          resampling_weight_model: "weight_model"
+          bandwidth_model: "bandwidth_model"
+          resampling_bandwidth_model: "resampling_bandwidth_model"
+
+      pre_trained_models: 
+        observation_model: experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_1/models/observation_encoder_best.pt
+        weight_model: experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_1/models/weight_model_best.pt
+        particle_encoder_for_weights_model: experiments/deepmind_maze_experiments_multiple_runs/individual_training/saves/weights_maze_1/models/particle_encoder_for_weights_model_best.pt
+
+      dataset_params:
+        use_actions: True
+        subsequence_length: 10
+        dataset_directory: "../data/deep_mind_localization/data/100s/"
+        # sparse_ground_truth_keep_modulo: 2
+
+        filenames:
+          evaluation: ["nav01_train"]
+
+      evaluation_params:
+        number_to_render: 16
+
+        # The parameters fro the KDE that will be used for this model
+        kde_params:
+          dims:
+            0:
+                distribution_type: "Normal"
+            1:
+                distribution_type: "Normal"
+            2:
+                distribution_type: "Von_Mises"
+
+
+        particle_cloud_params:
+          number_of_particles: 100
+          particle_cloud_generator_type: Distribution
+
+          cloud_center_distribution_params:
+            dims:
+              0:
+                  distribution_type: "Normal"
+                  bandwidth: 2.0
+              1:
+                  distribution_type: "Normal"
+                  bandwidth: 2.0
+              2:
+                  distribution_type: "Von_Mises"
+                  bandwidth: 0.1
+
+          cloud_generating_distribution_params:
+            dims:
+              0:
+                  distribution_type: "Normal"
+                  bandwidth: 3.0
+              1:
+                  distribution_type: "Normal"
+                  bandwidth: 3.0
+              2:
+                  distribution_type: "Von_Mises"
+                  bandwidth: 0.1
+
+
+        kde_rendering_params:
+          # The parameters for the KDE that will be used for this loss
+          manual_bandwidth: [1.0, 1.0 ,0.1]
+          loss_type: "KDE_NLL"
+          kde_params:
+            dims:
+              0:
+                  distribution_type: "Normal"
+              1:
+                  distribution_type: "Normal"
+              2:
+                  distribution_type: "Von_Mises"

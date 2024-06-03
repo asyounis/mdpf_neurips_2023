@@ -1,0 +1,14 @@
+dataset_params:
+  subsequence_length: 17
+  dataset_directory: "../data/deep_mind_localization/data/100s/"
+  use_actions: True
+    
+  sparse_ground_truth_keep_modulo: 4
+
+  filenames:
+    training: ["nav03_train"]
+    validation: ["nav03_train"]
+
+  dataset_saves: 
+    training: experiments/deepmind_maze_experiments_multiple_runs/datasets/training_dataset_maze_3.pt
+    validation: experiments/deepmind_maze_experiments_multiple_runs/datasets/validation_dataset_maze_3.pt

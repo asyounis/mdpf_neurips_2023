@@ -1,0 +1,10 @@
+dataset_params:
+  subsequence_length: 99
+  dataset_directory: "../data/deep_mind_localization/data/100s/"
+  use_actions: True
+  
+  filenames:
+    evaluation: ["nav03_test"]
+
+  dataset_saves: 
+    evaluation: experiments/deepmind_maze_experiments_multiple_runs/datasets/evaluation_dataset_maze_3.pt

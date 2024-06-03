@@ -1,0 +1,29 @@
+
+
+\begin{table}[tb]
+	\setlength{\tabcolsep}{2.5pt}
+	\centering
+	\caption{}
+	\label{tab:house_3d_results_table}
+	\begin{center}
+		\begin{small}
+			\begin{sc}
+				\begin{tabular}{lcc}
+					\toprule
+					Method & NLL & RMSE \\ 
+					\midrule 
+					LSTM                           & 12.54 $\pm$ 3.43               & 48.51 $\pm$ 27.16             \\ 
+					TG-PF                          & 15.50 $\pm$ 2.21               & 206.32 $\pm$ 109.44           \\ 
+					OT-PF                          & 14.87 $\pm$ 2.31               & 159.57 $\pm$ 109.65           \\ 
+					SR-PF                          & 14.92 $\pm$ 2.57               & 191.32 $\pm$ 129.28           \\ 
+					DIS-PF                         & 15.06 $\pm$ 2.02               & 212.58 $\pm$ 133.69           \\ 
+					TG-MDPF                        & 8.38 $\pm$ 2.53                & 35.77 $\pm$ 16.67             \\ 
+					MDPF                           & 8.18 $\pm$ 2.72                & 30.59 $\pm$ 12.98             \\ 
+					A-MDPF                         & \textbf{8.09 $\pm$ 3.49}       & \textbf{30.51 $\pm$ 12.32}    \\ 
+					\bottomrule 
+				\end{tabular} 
+			\end{sc} 
+		\end{small} 
+	\end{center} 
+	\vskip -0.1in 
+\end{table} 

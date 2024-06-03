@@ -1,0 +1,121 @@
+model_files:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/models.yaml"
+
+models:
+ 
+   dpf_full_training:
+    type: "OptimalTransportParticleFilterLearnedBand"
+
+    # Note: if this is true then we assume the model output is in log space
+    weight_divide_by_proposal_probability: False
+
+    # If we should use particle encoding
+    encode_particles: True
+    decouple_particle_encoders: True
+
+    # OT resampling
+    use_differentiable_resampling: True
+    differentiable_resampling_method: "OT"
+    use_resampling_method_always_override: True
+
+
+
+    # Dont decouple when training the weights
+    decouple_weights_for_resampling: False
+    decouple_bandwidths_for_resampling: False
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+    # We need a particle transformer
+    particle_transformer: 
+      transformer_type: "BearingsOnlyTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+
+
+
+save_dir_root: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/optimal_transport_pf_learned_band_always_on_override/saves/
+experiment_name_replacement: optimal_transport_pf_learned_band
+
+experiments_import:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/generated/comparison_experiments_always_on_override.yaml"
+
+
+experiments_local_override:
+
+  - full_dpf_evaluation_fixed_bands_000:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_001:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_002:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_003:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_004:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_005:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_006:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_007:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_008:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_009:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_010:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_000:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_001:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_002:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_003:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_004:
+      do_run: true
+
+  - full_dpf_evaluation_fixed_bands_mse_005:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_006:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_007:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_008:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_009:
+      do_run: False
+
+  - full_dpf_evaluation_fixed_bands_mse_010:
+      do_run: False

@@ -1,0 +1,4 @@
+full_dpf_full_training_fixed_bands_mse_003
+Running on device: cuda:0
+
+============================================================================

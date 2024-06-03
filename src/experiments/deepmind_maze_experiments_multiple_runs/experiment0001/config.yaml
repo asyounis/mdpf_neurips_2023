@@ -1,0 +1,53 @@
+model_files:
+  - "experiments/deepmind_maze_experiments_multiple_runs/config_files/models.yaml"
+
+models:
+ 
+  dpf_full_training:
+    type: "KDEParticleFilter"
+
+    # Note: if this is true then we assume the model output is in log space
+    weight_divide_by_proposal_probability: False
+
+    # If we should use particle encoding
+    encode_particles: True
+    decouple_particle_encoders: True
+
+    # We want to stop the gradient at every timestep
+    use_differentiable_resampling: False
+
+
+    # Dont decouple when training the weights
+    decouple_weights_for_resampling: False
+    decouple_bandwidths_for_resampling: False
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+    # We need a particle transformer for the deepmind dataset
+    particle_transformer: 
+      transformer_type: "DeepMindTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+  bandwidth_model:
+    type: "FixedBandwith"
+    starting_bandwidths: [0.4, 0.4, 0.03]
+    min_bandwidths: [0.1, 0.1, 0.01]
+    max_bandwidths: [50.0, 50.0, 0.25]
+    max_bandwidths_assert: True
+
+save_dir_root: experiments/deepmind_maze_experiments_multiple_runs/experiment0001/saves/
+
+experiments_import:
+  - "experiments/deepmind_maze_experiments_multiple_runs/config_files/generated/our_experiments.yaml"
+

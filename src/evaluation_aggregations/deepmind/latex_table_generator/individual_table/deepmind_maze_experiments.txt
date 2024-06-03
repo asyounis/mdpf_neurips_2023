@@ -1,0 +1,95 @@
+
+
+
+
+
+
+\begin{table}[tb]
+	\setlength{\tabcolsep}{2.5pt}
+	\centering
+	\caption{Results of Deepmind Maze Tracking Task for Maze 1 using the densely labeled evaluation (test) dataset.  When method is trained using training loss $\mathcal{L}_{NLL}$, we show the NLL loss on the evaluation dataset. After refinement training with $\mathcal{L}_{MSE}$ we evaluate using the RMSE metric. Shown is the mean and standard deviation for each metric using evaluation data with best performing method in bold.}
+	\label{tab:deepmind_maze_results_table_individual_maze_1}
+	\begin{center}
+		\begin{small}
+			\begin{sc}
+				\begin{tabular}{lcc}
+					\toprule
+					 Training Loss: &  \multicolumn{1}{c|}{$\mathcal{L}_{NLL}$} &  \multicolumn{1}{|c}{$\mathcal{L}_{MSE}$} \\ 
+					\midrule 
+					Method & NLL & RMSE \\ 
+					\midrule 
+					TG-PF-LB& 6.93 $\pm$ 0.04& 2.35 $\pm$ 0.04\\ 
+					SR-PF-LB& 6.72 $\pm$ 0.02& 2.20 $\pm$ 0.02\\ 
+					DIS-PF-LB& 6.40 $\pm$ 0.03& 1.92 $\pm$ 0.02\\ 
+					TG-MDPF& 6.28 $\pm$ 0.13& 1.64 $\pm$ 0.02\\ 
+					MDPF& 5.75 $\pm$ 0.05& 1.30 $\pm$ 0.04\\ 
+					A-MDPF-Init& \textbf{4.98 $\pm$ 0.08}& \textbf{1.19 $\pm$ 0.02}\\ 
+					\bottomrule 
+				\end{tabular} 
+			\end{sc} 
+		\end{small} 
+	\end{center} 
+	\vskip -0.1in 
+\end{table} 
+
+
+
+
+\begin{table}[tb]
+	\setlength{\tabcolsep}{2.5pt}
+	\centering
+	\caption{Results of Deepmind Maze Tracking Task for Maze 2 using the densely labeled evaluation (test) dataset.  When method is trained using training loss $\mathcal{L}_{NLL}$, we show the NLL loss on the evaluation dataset. After refinement training with $\mathcal{L}_{MSE}$ we evaluate using the RMSE metric. Shown is the mean and standard deviation for each metric using evaluation data with best performing method in bold.}
+	\label{tab:deepmind_maze_results_table_individual_maze_2}
+	\begin{center}
+		\begin{small}
+			\begin{sc}
+				\begin{tabular}{lcc}
+					\toprule
+					 Training Loss: &  \multicolumn{1}{c|}{$\mathcal{L}_{NLL}$} &  \multicolumn{1}{|c}{$\mathcal{L}_{MSE}$} \\ 
+					\midrule 
+					Method & NLL & RMSE \\ 
+					\midrule 
+					TG-PF-LB& 6.81 $\pm$ 0.01& 2.16 $\pm$ 0.01\\ 
+					SR-PF-LB& 6.70 $\pm$ 0.06& 2.08 $\pm$ 0.03\\ 
+					DIS-PF-LB& 6.25 $\pm$ 0.04& 1.78 $\pm$ 0.02\\ 
+					TG-MDPF& 6.59 $\pm$ 0.22& 1.67 $\pm$ 0.03\\ 
+					MDPF& 5.59 $\pm$ 0.20& \textbf{1.24 $\pm$ 0.09}\\ 
+					A-MDPF-Init& \textbf{5.17 $\pm$ 0.09}& 1.25 $\pm$ 0.06\\ 
+					\bottomrule 
+				\end{tabular} 
+			\end{sc} 
+		\end{small} 
+	\end{center} 
+	\vskip -0.1in 
+\end{table} 
+
+
+
+
+\begin{table}[tb]
+	\setlength{\tabcolsep}{2.5pt}
+	\centering
+	\caption{Results of Deepmind Maze Tracking Task for Maze 3 using the densely labeled evaluation (test) dataset.  When method is trained using training loss $\mathcal{L}_{NLL}$, we show the NLL loss on the evaluation dataset. After refinement training with $\mathcal{L}_{MSE}$ we evaluate using the RMSE metric. Shown is the mean and standard deviation for each metric using evaluation data with best performing method in bold.}
+	\label{tab:deepmind_maze_results_table_individual_maze_3}
+	\begin{center}
+		\begin{small}
+			\begin{sc}
+				\begin{tabular}{lcc}
+					\toprule
+					 Training Loss: &  \multicolumn{1}{c|}{$\mathcal{L}_{NLL}$} &  \multicolumn{1}{|c}{$\mathcal{L}_{MSE}$} \\ 
+					\midrule 
+					Method & NLL & RMSE \\ 
+					\midrule 
+					TG-PF-LB& 6.97 $\pm$ 0.18& 2.29 $\pm$ 0.12\\ 
+					SR-PF-LB& 6.91 $\pm$ 0.15& 2.30 $\pm$ 0.10\\ 
+					DIS-PF-LB& 5.52 $\pm$ 0.08& 1.37 $\pm$ 0.05\\ 
+					TG-MDPF& 6.57 $\pm$ 0.26& 1.69 $\pm$ 0.02\\ 
+					MDPF& 5.84 $\pm$ 0.17& \textbf{1.32 $\pm$ 0.08}\\ 
+					A-MDPF-Init& \textbf{5.49 $\pm$ 0.17}& 1.33 $\pm$ 0.05\\ 
+					\bottomrule 
+				\end{tabular} 
+			\end{sc} 
+		\end{small} 
+	\end{center} 
+	\vskip -0.1in 
+\end{table} 

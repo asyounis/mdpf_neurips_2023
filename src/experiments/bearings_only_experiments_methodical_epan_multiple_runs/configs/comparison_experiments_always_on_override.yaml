@@ -1,0 +1,32 @@
+
+experiments:
+        
+###############################################################################################################################################################
+###############################################################################################################################################################
+# ███████╗██╗   ██╗ █████╗ ██╗     ██╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+# ██╔════╝██║   ██║██╔══██╗██║     ██║   ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+# █████╗  ██║   ██║███████║██║     ██║   ██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+# ██╔══╝  ╚██╗ ██╔╝██╔══██║██║     ██║   ██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+# ███████╗ ╚████╔╝ ██║  ██║███████╗╚██████╔╝██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+# ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝                                                                             
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+  - full_dpf_evaluation_fixed_bands:
+      do_run: true
+      save_dir: "<root_save_dir>/full_dpf_evaluation_fixed_bands/"
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_epan_multiple_runs/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: experiments/bearings_only_experiments_methodical_epan_multiple_runs/<experiment_name_replacement>/saves/<run_number>/full_dpf_fixed_bands/models/full_dpf_model_best.pt
+
+
+
+
+  - full_dpf_evaluation_fixed_bands_mse:
+      do_run: true
+      save_dir: "<root_save_dir>/full_dpf_evaluation_fixed_bands_mse/"
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_epan_multiple_runs/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: experiments/bearings_only_experiments_methodical_epan_multiple_runs/<experiment_name_replacement>/saves/<run_number>/full_dpf_fixed_bands_mse/models/full_dpf_model_best.pt

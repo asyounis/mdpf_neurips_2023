@@ -1,0 +1,657 @@
+
+# Pytorch Includes
+import torch
+import torch.distributions as D
+
+
+from kernel_density_estimation.von_mises_full_dist import *
+
+class KDENormal(D.Normal):
+
+
+    def diff_of_prob(self, value):
+        prob = torch.exp(self.log_prob(value))
+
+        diff_of_prob = -(value - self.loc) / (self.scale**2)
+        diff_of_prob = diff_of_prob * prob
+
+        return diff_of_prob
+
+
+
+
+
+# normal = KDENormal(loc=0, scale=1)
+
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+
+
+# fig, ax = plt.subplots()
+# ax.set_aspect('equal')
+# ax.grid(True, which='both')
+
+
+# x = torch.linspace(-3, 3, 10000)
+# y1 = normal.diff_of_prob(x)
+# ax.plot(x, y1)
+
+# y2 = normal.log_prob(x)
+# y2 = torch.exp(y2)
+# ax.plot(x, y2)
+
+# ax.axhline(y=0, color='k')
+# ax.axvline(x=0, color='k')
+# ax.set_aspect('equal')
+
+# plt.show()
+# exit()
+
+
+class KernelDensityEstimator:
+    def __init__(self, kde_params, particles, particle_weights, bandwidths):
+        '''
+            particles.shape = [batch, num_particles, dim]
+            particle_weights.shape = [batch, num_particles]
+            particles.bandwidths = [batch, dim]
+        '''
+
+        # print(kde_params)
+        # print(particles.shape)
+        # print(particle_weights.shape)
+        # print(bandwidths.shape)
+
+        self.batch_size = particles.shape[0]
+        self.number_of_particles = particles.shape[1]
+
+        # The particle weights can be thought as the mixture component weighs
+        self.weights = particle_weights
+
+
+        self.particles = particles
+        self.bandwidths = bandwidths
+
+        self.distributions = []
+
+        for d in kde_params["dims"]:
+            dim_params = kde_params["dims"][d]
+
+            # Get the bandwidth for this dim
+            bandwidth = torch.tile(bandwidths[...,d].unsqueeze(-1), [1, particles.shape[1]])
+
+            # create the correct dist for this dim
+            distribution_type = dim_params["distribution_type"]
+            if(distribution_type == "Normal"):
+
+                # Create and save the dist
+                # dist = D.Normal(loc=particles[..., d], scale=bandwidth)
+                dist = KDENormal(loc=particles[..., d], scale=bandwidth)
+                self.distributions.append(dist)
+
+                # print("bandwidth", bandwidth)
+
+            elif(distribution_type == "Von_Mises"):
+
+                bandwidth = 1.0 / (bandwidth + 1e-8)
+
+                # print("bandwidth", bandwidth)
+
+                # Create and save the dist
+                # dist = D.VonMises(loc=particles[..., d], concentration=bandwidth)
+                dist = VonMisesFullDist(loc=particles[..., d], concentration=bandwidth)
+                self.distributions.append(dist)
+
+
+        self.number_of_dims = len(self.distributions)
+
+    def sample(self, shape):
+
+        # There are no gradients when doing resampling so 
+        # we might as well stop the gradients now to save computation time
+        with torch.no_grad():
+            assert(len(shape) == 1)
+
+            # Figure out how many samples we need
+            total_samples = 1
+            for s in shape:
+                total_samples *= s
+
+            # Create structure that will hold all the samples
+            all_samples_shape = list()
+            all_samples_shape.append(total_samples)
+            all_samples_shape.append(self.batch_size)
+            all_samples_shape.append(len(self.distributions))
+            all_samples = torch.zeros(size=all_samples_shape, device=self.weights.device)
+
+            # This is the "weight" coeef that will be used in each conditional mixture
+            log_c_numer_shape = list()
+            log_c_numer_shape.append(total_samples)
+            log_c_numer_shape.append(self.weights.shape[0])
+            log_c_numer_shape.append(self.weights.shape[1])
+            log_c_numer = torch.zeros(size=log_c_numer_shape, device=self.weights.device)
+            log_c_numer[:, :, :] = torch.log(self.weights.unsqueeze(0))
+
+            # Sample from each dim 1 dim at a time
+            for d, dist in enumerate(self.distributions):
+
+                # Select the mixture component to use based on the new C
+                cat = D.Categorical(logits=log_c_numer)
+                cat_samples = cat.sample()
+
+                # print(torch.exp(log_c_numer[0, 0]))
+
+                # Sample from all the mixture components and then cut out the
+                # samples from the components that were selected above
+                d_samples = dist.sample(shape)
+
+                # print(shape)
+                # print(log_c_numer.shape)
+                # print(d_samples.shape)
+                # print(cat_samples.shape)
+
+
+                d_samples = torch.gather(d_samples, -1, cat_samples.unsqueeze(-1))
+
+                # Save the sample
+                all_samples[...,d] = d_samples.squeeze(-1)
+
+                # Update the C for the next dim based on this dim (and all previous dims)
+                log_c_numer += dist.log_prob(d_samples)
+
+                # print(torch.min(dist.log_prob(d_samples)))
+                # print(torch.sum(torch.exp(log_c_numer), dim=-1))
+
+                # if(d == 0):
+                #     print(d_samples)
+                #     print(d_samples.shape)
+                #     print(torch.exp(dist.log_prob(d_samples)))
+                # print(torch.sum(torch.exp(dist.log_prob(d_samples)), dim=-1))
+
+                # exit()
+
+
+            # Reshape the samples back to the correct shape
+            # Note here we do batch size first so we have [batch, shape, num_dims]
+            # correct_shape = list()
+            # correct_shape.append(self.batch_size)
+            # correct_shape.extend(list(shape))
+            # correct_shape.append(len(self.distributions))
+            # all_samples = torch.reshape(all_samples, correct_shape)
+
+            all_samples = torch.permute(all_samples,(1, 0, 2))
+
+            # print(all_samples[..., 0].transpose(0,1))
+            # print("")
+
+            # log_prob = self.log_prob(all_samples)
+            # log_prob = torch.exp(log_prob)
+            # print("")
+            # print(torch.mean(log_prob))
+            # print(torch.max(log_prob))
+            # print(torch.min(log_prob))
+            # print("")
+
+            return all_samples
+
+    def log_prob(self, x):
+        
+        # Right now we only support shapes of size 3 [batch size, samples, dims]
+        assert(len(x.shape) == 3)
+
+        # Need to convert x from [batch, shape , dims] to [shape, batch, dims]
+        # new_shape = list()
+        # new_shape.extend(list(x.shape[1:-1]))
+        # new_shape.append(self.batch_size)
+        # new_shape.append(len(self.distributions))
+        # x = torch.reshape(x, new_shape)
+        x = torch.permute(x, (1,0,2))
+
+
+        # This is the "weight" coeef that will be used in each conditional mixture
+        log_c_numer_shape = list()
+        log_c_numer_shape.append(x.shape[0])
+        log_c_numer_shape.append(self.weights.shape[0])
+        log_c_numer_shape.append(self.weights.shape[1])
+        log_c_numer = torch.zeros(size=log_c_numer_shape, device=self.weights.device)
+        log_c_numer[:, :, :] = torch.log(self.weights.unsqueeze(0) + 1e-8)
+
+        # The joint log prob values for the sample computed from conditionals
+        all_log_probs_shape = list()
+        all_log_probs_shape.append(x.shape[0])
+        all_log_probs_shape.append(self.weights.shape[0])
+        all_log_probs = torch.zeros(size=all_log_probs_shape, device=self.weights.device)
+
+        # Do 1 dim at a time
+        for d, dist in enumerate(self.distributions):
+
+            # Compute the normalized C
+            log_c_normed = log_c_numer - torch.logsumexp(log_c_numer, dim=-1, keepdim=True)
+
+            # get the log_prob
+            log_prob = dist.log_prob(x[..., d].unsqueeze(-1))
+
+            # Add to the log prob
+            all_log_probs += torch.logsumexp(log_prob + log_c_normed, dim=-1)
+
+            # Update the numerator for the next dim
+            log_c_numer += log_prob
+
+        # Need to convert back from [shape, batch, dims] to [batch, shape , dims]
+        new_shape = list()
+        new_shape.append(self.batch_size)
+        new_shape.extend(list(x.shape[0:-2]))
+        all_log_probs = torch.reshape(all_log_probs, new_shape)
+
+        # gradient_injection_value = torch.permute(gradient_injection_value, (2, 1, 0))
+
+        return all_log_probs
+
+    # def compute_gradient_injection(self, x):
+
+    #     # Right now we only support shapes of size 3 [batch size, samples, dims]
+    #     assert(len(x.shape) == 3)
+
+    #     # Need to convert x from [batch, shape , dims] to [shape, batch, dims]
+    #     # new_shape = list()
+    #     # new_shape.extend(list(x.shape[1:-1]))
+    #     # new_shape.append(self.batch_size)
+    #     # new_shape.append(len(self.distributions))
+    #     # x = torch.reshape(x, new_shape)
+    #     x = torch.permute(x, (1,0,2))
+
+
+    #     # The joint log prob values for the sample computed from conditionals
+    #     all_log_probs_shape = list()
+    #     all_log_probs_shape.append(len(self.distributions))
+    #     all_log_probs_shape.append(x.shape[0])
+    #     all_log_probs_shape.append(self.weights.shape[0])
+    #     all_log_probs = torch.zeros(size=all_log_probs_shape, device=self.weights.device)
+
+    #     # Compute the PDFs with no gradients for speed
+    #     with torch.no_grad():
+
+    #         # This is the "weight" coeef that will be used in each conditional mixture
+    #         log_c_numer_shape = list()
+    #         log_c_numer_shape.append(x.shape[0])
+    #         log_c_numer_shape.append(self.weights.shape[0])
+    #         log_c_numer_shape.append(self.weights.shape[1])
+    #         log_c_numer = torch.zeros(size=log_c_numer_shape, device=self.weights.device)
+    #         log_c_numer[:, :, :] = torch.log(self.weights.unsqueeze(0) + 1e-8)
+
+    #         # Do 1 dim at a time
+    #         for d, dist in enumerate(self.distributions):
+
+    #             # Compute the normalized C
+    #             log_c_normed = log_c_numer - torch.logsumexp(log_c_numer, dim=-1, keepdim=True)
+
+    #             # get the log_prob
+    #             log_prob = dist.log_prob(x[..., d].unsqueeze(-1))
+
+    #             # Add to the log prob
+    #             all_log_probs[d,...] = torch. (log_prob + log_c_normed, dim=-1)
+
+
+    #             # Clamp values for stability
+    #             # log_prob = torch.clamp(log_prob, min=-20)
+    #             # all_log_probs[d,...] = torch.clamp(all_log_probs[d,...], min=-20)
+
+    #             # Update the numerator for the next dim
+    #             log_c_numer = log_c_numer + log_prob
+
+
+
+    #         # all_log_probs = torch.clamp(all_log_probs, min=-20)
+
+    #     # The joint log prob values for the sample computed from conditionals
+    #     all_log_conditional_cdfs_shape = list()
+    #     all_log_conditional_cdfs_shape.append(len(self.distributions))
+    #     all_log_conditional_cdfs_shape.append(x.shape[0])
+    #     all_log_conditional_cdfs_shape.append(self.weights.shape[0])
+    #     # all_log_conditional_cdfs = torch.zeros(size=all_log_conditional_cdfs_shape, device=self.weights.device)
+    #     all_conditional_cdfs = torch.ones(size=all_log_conditional_cdfs_shape, device=self.weights.device)
+
+
+    #     # This is the "weight" coeef that will be used in each conditional mixture
+    #     log_c_numer_shape = list()
+    #     log_c_numer_shape.append(x.shape[0])
+    #     log_c_numer_shape.append(self.weights.shape[0])
+    #     log_c_numer_shape.append(self.weights.shape[1])
+    #     log_c_numer = torch.zeros(size=log_c_numer_shape, device=self.weights.device)
+    #     log_c_numer[:, :, :] = torch.log(self.weights.unsqueeze(0) + 1e-8)
+
+    #     # Sample from each dim 1 dim at a time
+    #     for d, dist in enumerate(self.distributions):
+
+    #         # Compute the normalized C
+    #         log_c_normed = log_c_numer - torch.logsumexp(log_c_numer, dim=-1, keepdim=True)
+
+    #         # Compute the CDF for this dim for all the mixtures
+    #         cdf = dist.cdf(x[..., d].unsqueeze(-1))
+
+    #         # # Apply the mixture coeefs and sum
+    #         # # We do this in log space
+    #         # log_cdf = torch.log(cdf + 1e-8)
+    #         # log_cdf = torch.logsumexp(log_cdf + all_log_c_normed[d], dim=-1)
+    #         # all_log_conditional_cdfs[d:,...] = log_cdf
+
+
+    #         # Update the numerator for the next dim
+    #         log_c_numer = log_c_numer + torch.log(cdf + 1e-8)
+
+    #         cdf = torch.sum(cdf * torch.exp(log_c_normed), dim=-1)
+    #         all_conditional_cdfs[d:,...] = cdf
+
+    #         # Clamp values for stability
+    #         # all_conditional_cdfs[d,...] = torch.clamp(all_conditional_cdfs[d,...], min=-20)
+
+
+    #     # Compute the gradient injection value
+    #     # gradient_injection_value = all_log_conditional_cdfs - all_log_probs.detach()
+    #     # gradient_injection_value = -torch.exp(gradient_injection_value)
+    #     # gradient_injection_value = -all_conditional_cdfs * torch.exp(-all_log_probs).detach()
+
+    #     gradient_injection_value = -all_conditional_cdfs / (torch.exp(all_log_probs).detach() + 1e-8)
+
+    #     # all_log_probs = torch.exp(all_log_probs)
+    #     # gradient_injection_value = -torch.exp(all_log_conditional_cdfs) * torch.exp(-torch.log(all_log_probs.detach() + 1e-8)).detach()
+
+
+
+    #     # Reshape the gradient injection value so that it matches the same shape as the incoming samples
+    #     # new_shape = list()
+    #     # new_shape.append(self.batch_size)
+    #     # new_shape.extend(list(x.shape[0:-2]))
+    #     # new_shape.append(len(self.distributions))
+    #     # gradient_injection_value = torch.reshape(gradient_injection_value, new_shape)
+    #     gradient_injection_value = torch.permute(gradient_injection_value, (2, 1, 0))
+
+    #     # Create the final gradient injection value (aka the one we add to the samples)
+    #     # This should equal 0 so that samples + gradient_injection_value = 0 but still able to 
+    #     # compute the gradient
+    #     gradient_injection_value = gradient_injection_value - gradient_injection_value.detach()
+
+    #     return gradient_injection_value
+
+
+    def compute_gradient_injection(self, x):
+
+        # Right now we only support shapes of size 3 [batch size, samples, dims]
+        assert(len(x.shape) == 3)
+
+        # Need to convert x from [batch, shape , dims] to [shape, batch, dims]
+        # new_shape = list()
+        # new_shape.extend(list(x.shape[1:-1]))
+        # new_shape.append(self.batch_size)
+        # new_shape.append(len(self.distributions))
+        # x = torch.reshape(x, new_shape)
+        x = torch.permute(x, (1,0,2))
+
+
+        ###############################################################################################
+        ## Compute ∇zSφ(z))^−1
+        ###############################################################################################
+
+        # We dont need gradients for this since we will be computing this manually
+        with torch.no_grad():
+
+            # The PDF and CDF values for each of the distributions
+            shape = list()
+            shape.append(x.shape[0])
+            shape.append(self.batch_size)
+            shape.append(self.number_of_particles)
+            shape.append(self.number_of_dims)
+            all_probs = torch.zeros(size=shape, device=self.weights.device)
+            all_cdfs = torch.zeros(size=shape, device=self.weights.device)
+            all_diff_of_probs = torch.zeros(size=shape, device=self.weights.device)
+
+            # Do 1 dim at a time
+            for d, dist in enumerate(self.distributions):
+
+                # get the prob
+                log_prob = dist.log_prob(x[..., d].unsqueeze(-1))
+                all_probs[..., d] = torch.exp(log_prob)
+
+                all_diff_of_probs[..., d] = dist.diff_of_prob(x[..., d].unsqueeze(-1))
+
+                # get the cdf
+                all_cdfs[..., d] = dist.cdf(x[..., d].unsqueeze(-1))
+
+
+            # print(all_probs[:,0,:,0])
+            # print(all_cdfs[:,0,:,0])
+
+            # exit()
+
+            # Create the numerator term
+            shape = list()
+            shape.append(self.number_of_dims)
+            shape.append(self.number_of_dims)
+            shape.append(x.shape[0])
+            shape.append(self.batch_size)
+            shape.append(self.number_of_particles)
+            c_upper = torch.zeros(size=shape, device=self.weights.device)
+            c_lower = torch.zeros(size=shape, device=self.weights.device)
+            for c in range(self.number_of_dims):
+                for r in range(self.number_of_dims):
+
+                    # print("")
+                    # print("--------")
+                    # print(r, c)
+
+                    if(c > r):
+                        continue
+
+                    # Do the upper coeff
+                    c_upper[r,c] = self.weights.unsqueeze(0)
+                    for i in range(r+1):
+                        if(i==c):
+                            continue
+                        
+                        if(i == r):
+                            c_upper[r,c] = c_upper[r,c] * all_cdfs[..., i]
+                        else:
+                            c_upper[r,c] = c_upper[r,c] * all_probs[..., i]
+
+                        # print(i)
+
+
+                    # Do the lower coeff
+                    if(r != c):
+
+                        c_lower[r,c] = self.weights.unsqueeze(0)
+
+                        for i in range(r):
+                            if(i == c):
+                                continue
+                            c_lower[r,c] = c_lower[r,c] * all_probs[..., i]
+
+
+            # print(torch.max(all_probs))
+
+            # exit()
+
+            # The jacobian
+            shape = list()
+            shape.append(x.shape[0])
+            shape.append(self.batch_size)
+            shape.append(self.number_of_dims)
+            shape.append(self.number_of_dims)
+            jacobian = torch.zeros(size=shape, device=x.device)
+
+
+            for c in range(len(self.distributions)):
+                for r in range(len(self.distributions)):
+
+                    # We only have the lower triangle so skip the upper triangle of the matrix
+                    # Default for the jacobian matrix is zero so not setting just keeps it zero
+                    if(c > r):
+                        continue
+
+                    if(c == r):
+                        # Do the diagonal
+                        jacobian[:,:, r, c] = torch.sum(all_probs[..., c] * c_upper[r,c], dim=-1)
+                        jacobian[:,:, r, c] /= torch.sum(c_upper[r,c], dim=-1)
+
+                    else:
+
+                        derivA = all_diff_of_probs[..., c] * torch.sum(all_probs[..., c]  * c_lower[r,c], dim=-1,keepdim=True)
+                        derivB = all_probs[..., c]  * torch.sum(all_diff_of_probs[..., c] * c_lower[r,c], dim=-1,keepdim=True)
+                        derivC = torch.sum(all_probs[..., c] * c_lower[r,c], dim=-1,keepdim=True) ** 2
+
+
+                        deriv = derivA - derivB
+                        deriv /= (derivC + 1e-8)
+
+                        jacobian[:,:, r, c] = torch.sum(c_upper[r,c] * deriv, dim=-1)
+
+
+            # jacobian += (torch.eye(jacobian.shape[-1]).to(jacobian.device) * 1e-8)
+            for c in range(self.number_of_dims):
+                for r in range(self.number_of_dims):
+                    if(c > r):
+                        jacobian[:,:, r, c] = 0           
+
+            # jacobian = jacobian.transpose(-1, -2)
+
+            inv_jac = torch.linalg.inv(jacobian)
+
+        ###############################################################################################
+        ## Compute ∇φSφ(z)
+        ###############################################################################################
+
+        # The joint log prob values for the sample computed from conditionals
+        all_log_conditional_cdfs_shape = list()
+        all_log_conditional_cdfs_shape.append(x.shape[0])
+        all_log_conditional_cdfs_shape.append(self.weights.shape[0])
+        all_log_conditional_cdfs_shape.append(len(self.distributions))
+        all_conditional_cdfs = torch.ones(size=all_log_conditional_cdfs_shape, device=self.weights.device)
+
+
+        # This is the "weight" coeef that will be used in each conditional mixture
+        c_numer_shape = list()
+        c_numer_shape.append(x.shape[0])
+        c_numer_shape.append(self.batch_size)
+        c_numer_shape.append(self.number_of_particles)
+        c_numer = torch.zeros(size=c_numer_shape, device=self.weights.device)
+        c_numer[:, :, :] = self.weights.unsqueeze(0)
+
+        # Sample from each dim 1 dim at a time
+        for d, dist in enumerate(self.distributions):
+
+            # Compute the normalized C
+            norm = torch.sum(c_numer, dim=-1, keepdim=True)
+            c_normed = c_numer / norm
+
+            # Compute the CDF for this dim for all the mixtures
+            cdf = dist.cdf(x[..., d].unsqueeze(-1))
+
+
+            # Update the numerator for the next dim
+            # c_numer = c_numer * cdf
+            log_prob = dist.log_prob(x[..., d].unsqueeze(-1))
+            prob = torch.exp(log_prob)
+            c_numer = c_numer * prob
+
+            all_conditional_cdfs[..., d] = torch.sum(cdf * c_normed, dim=-1)
+
+            # Clamp values for stability
+            # all_conditional_cdfs[d,...] = torch.clamp(all_conditional_cdfs[d,...], min=-20)
+
+
+        # Compute the gradient injection value
+        # gradient_injection_value = all_log_conditional_cdfs - all_log_probs.detach()
+        # gradient_injection_value = -torch.exp(gradient_injection_value)
+        # gradient_injection_value = -all_conditional_cdfs * torch.exp(-all_log_probs).detach()
+
+        # gradient_injection_value = -all_conditional_cdfs / (torch.exp(all_log_probs).detach() + 1e-8)
+
+
+
+        gradient_injection_value = -torch.matmul(inv_jac.detach(), all_conditional_cdfs.unsqueeze(-1))
+
+
+        # print(inv_jac.shape)
+        # print(all_conditional_cdfs.unsqueeze(-1).shape)
+        # print(gradient_injection_value.shape)
+
+        # exit()
+
+        gradient_injection_value = gradient_injection_value.squeeze(-1)
+
+        # print(torch.sum(torch.isnan(gradient_injection_value)))
+
+        # exit()
+
+        # all_log_probs = torch.exp(all_log_probs)
+        # gradient_injection_value = -torch.exp(all_log_conditional_cdfs) * torch.exp(-torch.log(all_log_probs.detach() + 1e-8)).detach()
+
+
+
+        # Reshape the gradient injection value so that it matches the same shape as the incoming samples
+        # new_shape = list()
+        # new_shape.append(self.batch_size)
+        # new_shape.extend(list(x.shape[0:-2]))
+        # new_shape.append(len(self.distributions))
+        # gradient_injection_value = torch.reshape(gradient_injection_value, new_shape)
+        # gradient_injection_value = torch.permute(gradient_injection_value, (2, 1, 0))
+        gradient_injection_value = torch.permute(gradient_injection_value, (1, 0, 2))
+
+        # print(gradient_injection_value.shape)
+        # exit()
+
+
+        # Create the final gradient injection value (aka the one we add to the samples)
+        # This should equal 0 so that samples + gradient_injection_value = 0 but still able to 
+        # compute the gradient
+        gradient_injection_value = gradient_injection_value - gradient_injection_value.detach()
+
+        return gradient_injection_value
+
+
+    def inject_gradient(self, x):
+
+        # We need to detach x
+        x = x.detach()
+
+        # Inject the gradient
+        x = x + self.compute_gradient_injection(x)
+
+        return x
+
+    def marginal_log_prob(self, x, variables_to_marginilize_out):
+        
+        # Right now we only support shapes of size 3 [batch size, samples, dims]
+        assert(len(x.shape) == 3)
+
+        # Make sure the number of dims supplied is correct
+        assert(x.shape[-1] == (len(self.distributions) - len(variables_to_marginilize_out)))
+
+        # Need to convert x from [batch, samples , dims] to [samples, batch, dims]
+        new_shape = list()
+        new_shape.extend(list(x.shape[1:-1]))
+        new_shape.append(self.batch_size)
+        new_shape.append(x.shape[-1])
+        x = torch.reshape(x, new_shape)
+
+
+        kde = torch.zeros(size=(x.shape[0], x.shape[1], self.number_of_particles, x.shape[2]), device=x.device)
+        curr_x_dim = 0
+        for d, dist in enumerate(self.distributions):
+
+            # Skip dims we are marginalizing out
+            if(d in variables_to_marginilize_out):
+                continue
+
+            # Get the log prob
+            kde[...,curr_x_dim] = dist.log_prob(x[..., curr_x_dim].unsqueeze(-1))
+            curr_x_dim += 1
+
+
+        # Finish off the kde computation
+        kde = torch.sum(kde, dim=-1)
+        kde += torch.log(self.weights.unsqueeze(0) + 1e-10)
+        kde = torch.logsumexp(kde, dim=-1)
+        kde = torch.transpose(kde, 0, 1)
+
+        return kde

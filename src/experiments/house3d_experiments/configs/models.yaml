@@ -1,0 +1,112 @@
+models:
+ 
+  # observation_model:
+  #   type: "House3DObservationEncoder"
+  #   non_linear_type: "PReLU"
+
+  # particle_encoder_weights:
+  #   type: "House3DMapParticleEncoder"
+  #   non_linear_type: "PReLU"
+
+  # weight_model:
+  #   type: "ParticleWeigherHouse3D"
+  #   dense_latent_space: 32
+  #   dense_number_of_layers: 2 
+  #   max_obs_likelihood: 1000.0
+  #   min_obs_likelihood: 0.01
+  #   non_linear_type: "PReLU"
+
+
+
+  observation_model:
+    type: "ImageObservationWithPoolingEncoder"
+    input_image_size: 56
+    input_image_dim: 3
+    convolution_latent_spaces: [16, 32, 64]
+    convolution_kernel_sizes: [3, 3, 3]
+    pool_after_convolution: [True, True, False]
+    encoder_latent_space: 64
+    encoder_number_of_fc_layers: 2
+    encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    use_weight_norm: False
+
+  particle_encoder_weights:
+    type: "ImageObservationWithPoolingEncoder"
+    input_image_size: 28
+    input_image_dim: 1
+    convolution_latent_spaces: [16, 32, 64]
+    convolution_kernel_sizes: [3, 3, 3]
+    pool_after_convolution: [True, False, False]
+    encoder_latent_space: 64
+    encoder_number_of_fc_layers: 2
+    encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    use_weight_norm: False
+
+  weight_model:
+    type: "ParticleWeigherAffineMapEncoderBoundPositive"
+    encoder_latent_space: 64    
+    encoder_number_of_layers: 3 
+    observation_encoder_output: 64 
+    max_obs_likelihood: 1.0
+    min_obs_likelihood: 0.00001
+    use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    use_weight_norm: False
+
+
+
+  action_encoder:
+    type: "ParticleEncoder"
+    encoder_latent_space: 32
+    encoder_number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    particle_dim: 3
+
+  initializer_model:
+    type: "InitializerModelBound"
+    input_observation_encoding_dimension: 128
+    latent_space: 128
+    number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    output_dim: 4
+    use_weight_norm: False
+    mins: [-10, -10, -1, -1]
+    maxs: [10, 10, 1, 1]
+
+  particle_encoder_particles:
+    type: "ParticleEncoder"
+    encoder_latent_space: 32
+    encoder_number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    particle_dim: 4
+    use_weight_norm: False
+    particle_ignore_dims: [0, 1]
+
+
+  proposal_model:
+    type: "LearnedProposalNoTimestampResidual"
+    input_particle_dimension: 64
+    output_particle_dimension: 4
+    proposal_latent_space: 32
+    proposal_number_of_layers: 3
+    proposal_encoder_use_batch_norm: "None"
+    non_linear_type: "PReLU"
+    noise_dimension: 4
+    use_weight_norm: False
+    residual_scale_factor: [75.0, 75.0, 0.99, 0.99]
+
+
+  bandwidth_model_fixed:
+    type: "FixedBandwith"
+    starting_bandwidths: [4.9, 4.9, 0.02]
+    min_bandwidths: [0.1, 0.1, 0.01]
+
+  resampling_bandwidth_model_fixed:
+    type: "FixedBandwith"
+    starting_bandwidths: [0.4, 0.4, 0.02]
+    min_bandwidths: [0.1, 0.1, 0.01]

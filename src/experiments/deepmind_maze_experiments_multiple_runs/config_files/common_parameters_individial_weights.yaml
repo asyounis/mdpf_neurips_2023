@@ -1,0 +1,99 @@
+application: deepmind_maze
+experiement_type: training
+training_type: "weights"
+device: "cuda_auto"
+
+model_params:
+  main_model: "dpf_full_training"
+
+  sub_models:
+    action_encoder_model: action_encoder
+    proposal_model: "proposal_model"
+    observation_model: "observation_model"
+    weight_model: "weight_model"
+    particle_encoder_for_particles_model: "particle_encoder_particles"
+    particle_encoder_for_weights_model: "particle_encoder_weights"
+    initializer_model: "initializer_model"
+    bandwidth_model: "bandwidth_model"
+    resampling_bandwidth_model: "resampling_bandwidth_model"
+
+dataset_params:
+  use_actions: True
+  subsequence_length: 10
+  dataset_directory: "../data/deep_mind_localization/data/100s/"
+  sparse_ground_truth_keep_modulo: 4
+
+training_params:
+  epochs: 400
+  early_stopping_patience: 25
+  early_stopping_start_offset: 100
+
+  training_batch_size: 32
+  validation_batch_size: 128
+
+  observation_model_learning_rate:              0.001
+  particle_encoder_for_weights_learning_rate:   0.001
+  weight_model_learning_rate:                   0.001
+
+  weight_decay: 0.001
+  optimizer_type: "Adam"
+  # optimizer_type: "SGD"
+  # optimizer_momentum: 0.25
+  # optimizer_dampening: 0.25
+
+
+  lr_scheduler_params:
+    # scheduler_type: "StepLR"
+    # step_size: 60
+    # gamma: 0.1
+    # verbose: False
+
+    scheduler_type: "ReduceLROnPlateau"
+    threshold: 0.001
+    factor: 0.1
+    patience: 20
+    cooldown: 10
+    min_lr: 0.0000001
+    verbose: false
+
+
+  particle_cloud_params:
+    number_of_particles: 100
+    particle_cloud_generator_type: Distribution
+
+    cloud_center_distribution_params:
+      dims:
+        0:
+            distribution_type: "Normal"
+            bandwidth: 2.0
+        1:
+            distribution_type: "Normal"
+            bandwidth: 2.0
+        2:
+            distribution_type: "Von_Mises"
+            bandwidth: 0.1
+
+    cloud_generating_distribution_params:
+      dims:
+        0:
+            distribution_type: "Normal"
+            bandwidth: 3.0
+        1:
+            distribution_type: "Normal"
+            bandwidth: 3.0
+        2:
+            distribution_type: "Von_Mises"
+            bandwidth: 0.1
+
+  loss_params:
+    # The parameters for the KDE that will be used for this loss
+    manual_bandwidth: [1.0, 1.0 ,0.1]
+    loss_type: "KDE_NLL"
+    kde_params:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"

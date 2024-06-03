@@ -1,0 +1,98 @@
+models:
+
+
+  initializer_model:
+    type: "InitializerModelBound"
+    input_observation_encoding_dimension: 8
+    latent_space: 8
+    number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    output_dim: 4
+    use_weight_norm: False
+    mins: [-10, -10, -1, -1]
+    maxs: [10, 10, 1, 1]
+
+
+
+
+  particle_encoder_particles:
+    type: "ParticleEncoder"
+    encoder_latent_space: 8
+    encoder_number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    particle_dim: 4
+    use_weight_norm: False
+    particle_ignore_dims: [0, 1]
+
+  proposal_model:
+    type: "LearnedProposalNoTimestampResidual"
+    input_particle_dimension: 8
+    output_particle_dimension: 4
+    proposal_latent_space: 8
+    proposal_number_of_layers: 3
+    proposal_encoder_use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    noise_dimension: 4
+    use_weight_norm: False
+    # residual_scale_factor: [5.0, 5.0, 2.0, 2.0]
+    residual_scale_factor: [0.99, 0.99, 0.99, 0.99]
+
+ 
+  observation_model:
+    type: "VectorObservationEncoder"
+    encoder_latent_space: 8
+    encoder_number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    input_dimension: 2
+    use_weight_norm: False
+
+
+  particle_encoder_weights:
+    type: "ParticleEncoder"
+    encoder_latent_space: 8
+    encoder_number_of_layers: 3
+    encoder_use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    particle_dim: 4
+    use_weight_norm: False
+
+
+  weight_model:
+    type: "ParticleBoundPositive"
+    input_particle_dimension: 8
+    encoder_latent_space: 8
+    encoder_number_of_layers: 3 
+    observation_encoder_output: 8 
+    number_of_observation_inputs: 1
+    min_obs_likelihood: 0.00001
+    max_obs_likelihood: 1.0
+    use_batch_norm: "None"
+    non_linear_type: "ReLU"
+    use_weight_norm: False
+
+
+  # bandwidth_model_variable:
+  #   type: "BandwidthPredictorNNSoftplus"
+  #   particle_dims: 3
+
+  # resampling_bandwidth_model_variable:
+  #   type: "BandwidthPredictorNNSoftplus"
+  #   particle_dims: 3
+
+
+
+  bandwidth_model_fixed:
+    type: "FixedBandwith"
+    starting_bandwidths: [0.74, 0.74, 0.03]
+    min_bandwidths: [0.1, 0.1, 0.001]
+
+  resampling_bandwidth_model_fixed:
+    type: "FixedBandwith"
+    starting_bandwidths: [0.4, 0.4, 0.03]
+    min_bandwidths: [0.1, 0.1, 0.001]
+
+  mse_set_transformer:
+    particle_dimension: 4

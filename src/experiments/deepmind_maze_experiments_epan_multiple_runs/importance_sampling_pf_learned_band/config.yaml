@@ -1,0 +1,48 @@
+model_files:
+  - "experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/models.yaml"
+
+models:
+ 
+   dpf_full_training:
+    type: "ImportanceSamplingParticleFilterLearnedBand"
+
+    # Note: if this is true then we assume the model output is in log space
+    weight_divide_by_proposal_probability: False
+
+    # If we should use particle encoding
+    encode_particles: True
+    decouple_particle_encoders: True
+
+    # Use a differentiable Resampling 
+    use_differentiable_resampling: False
+
+    # Dont decouple when training the weights
+    decouple_weights_for_resampling: False
+    decouple_bandwidths_for_resampling: False
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+    # We need a particle transformer
+    particle_transformer: 
+      transformer_type: "DeepMindTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Epanechnikov"
+        1:
+            distribution_type: "Epanechnikov"
+        2:
+            distribution_type: "Von_Mises"
+
+
+
+save_dir_root: experiments/deepmind_maze_experiments_epan_multiple_runs/importance_sampling_pf_learned_band/saves/
+experiment_name_replacement: importance_sampling_pf_learned_band
+
+experiments_import:
+  - "experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/generated/comparison_experiments.yaml"
+

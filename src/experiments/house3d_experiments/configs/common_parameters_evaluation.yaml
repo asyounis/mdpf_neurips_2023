@@ -1,0 +1,75 @@
+application: house3d
+experiement_type: evaluation
+evaluation_type: full
+device: "cuda_auto"
+
+model_params:
+  main_model: "dpf_full_training"
+
+  sub_models:
+    action_encoder_model: action_encoder
+    proposal_model: "proposal_model"
+    observation_model: "observation_model"
+    weight_model: "weight_model"
+    particle_encoder_for_particles_model: "particle_encoder_particles"
+    particle_encoder_for_weights_model: "particle_encoder_weights"
+    initializer_model: "initializer_model"
+    resampling_weight_model: "weight_model"
+    bandwidth_model: "bandwidth_model_fixed"
+    resampling_bandwidth_model: "resampling_bandwidth_model_fixed"
+
+dataset_params_file: "experiments/house3d_experiments/configs/dataset_params_evaluation.yaml" 
+
+evaluation_params:
+  number_to_render: 100
+  number_of_particles: 50
+  render_particles: True
+  do_qualitative: False
+
+  # sequences_to_render: [100]
+
+  # The parameters fro the KDE that will be used for this model
+  kde_params:
+    dims:
+      0:
+          distribution_type: "Normal"
+      1:
+          distribution_type: "Normal"
+      2:
+          distribution_type: "Von_Mises"
+
+  render_panel_params:
+    do_render_panel: False
+    render_panel_modulo: 1
+    render_panel_num_cols: 10
+    render_panel_num_rows: 4
+    render_panel_must_include_indices: []
+
+  quantitative_evaluation_params:
+
+    do_quantitative: True
+    batch_size: 32
+
+    metrics:
+      nll:
+        loss_params:
+          loss_type: "KDE_NLL"                
+          kde_params:
+            dims:
+              0:
+                  distribution_type: "Normal"
+              1:
+                  distribution_type: "Normal"
+              2:
+                  distribution_type: "Von_Mises"
+
+      mse:
+        loss_params:
+          loss_type: "MSE"
+          angle_dims: [2]
+
+      rmse:
+        loss_params:
+          loss_type: "RMSE"
+          angle_dims: [2]
+

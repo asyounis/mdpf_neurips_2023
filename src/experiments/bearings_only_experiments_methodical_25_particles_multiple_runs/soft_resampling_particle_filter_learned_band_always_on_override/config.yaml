@@ -1,0 +1,52 @@
+model_files:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/models.yaml"
+
+models:
+ 
+   dpf_full_training:
+    type: "SoftResamplingParticleFilterLearnedBand"
+
+    uniform_mix_alpha: 0.9
+
+    # Note: if this is true then we assume the model output is in log space
+    weight_divide_by_proposal_probability: False
+
+    # If we should use particle encoding
+    encode_particles: True
+    decouple_particle_encoders: True
+
+    # We want to stop the gradient at every timestep
+    use_differentiable_resampling: False
+    use_resampling_method_always_override: True
+
+
+    # Dont decouple when training the weights
+    decouple_weights_for_resampling: False
+    decouple_bandwidths_for_resampling: False
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+    # We need a particle transformer
+    particle_transformer: 
+      transformer_type: "BearingsOnlyTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+
+
+save_dir_root: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/soft_resampling_particle_filter_learned_band_always_on_override/saves/
+experiment_name_replacement: soft_resampling_particle_filter_learned_band
+
+experiments_import:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/generated/comparison_experiments_always_on_override.yaml"
+

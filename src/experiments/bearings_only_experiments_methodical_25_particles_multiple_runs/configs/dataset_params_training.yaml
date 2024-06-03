@@ -1,0 +1,30 @@
+dataset_params:
+  subsequence_length: 17
+  dynamics_skip_amount: 3
+  sparse_ground_truth_keep_modulo: 4
+
+  dataset_sizes:
+    training:   5000
+    validation: 1000
+
+  dataset_saves: 
+    training: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/datasets/training_dataset.pt
+    validation: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/datasets/validation_dataset.pt
+
+  car:
+    max_angle_pertubation_degrees: 30
+
+    velocity_params:
+      # Velocity : probability of choosing that velocity 
+      # Note: probability  must sum to 1
+      - 1.0: 0.5
+      - 2.0: 0.5
+
+  sensors:
+      sensor1:
+        x: -5
+        y: 0
+        sensor_bias_concentration: 32.0
+        sensor_concentration: 50.0
+        mix_with_uniform:  True
+        mix_with_uniform_alpha: 0.85

@@ -1,0 +1,97 @@
+model_files:
+  - "experiments/house3d_experiments/configs/models.yaml"
+
+models:
+ 
+   dpf_full_training:
+    type: "LSTMRnn"
+
+    # RNN Parameters
+    input_dim: 128
+    output_dim: 4
+    number_of_lstm_layers: 4
+    internal_latent_space_dim: 256
+    number_of_fc_layers: 4
+    non_linear_type: "PReLU"
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [10.0, 10.0, 0.03]
+
+
+    # We want to encode the particles into a latent space
+    encode_particles: True
+
+    # The residual network output scaling factor
+    residual_scale_factor: [75.0, 75.0, 0.99, 0.99]
+
+    #  The type and number of observations to use at each time step
+    observation_is_patches: False
+    number_of_observation_inputs: 1
+
+    # We need a particle transformer for the deepmind dataset
+    particle_transformer: 
+      transformer_type: "House3DTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+
+    bandwidth_model:
+      type: "FixedBandwith"
+      starting_bandwidths: [2.0, 2.0, 0.5]
+      min_bandwidths: [0.1, 0.1, 0.001]
+
+
+
+save_dir_root: experiments/house3d_experiments/lstm_rnn/saves/
+
+
+experiments_import:
+  - "experiments/house3d_experiments/configs/comparison_experiments.yaml"
+
+
+
+
+
+experiments_local_override:
+  - full_dpf_full_training_fixed_bands_mse:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands:
+      do_run: False
+
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands_mse/models/full_rnn_model_best.pt
+
+
+  - full_dpf_evaluation_fixed_bands:
+      do_run: True
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_rnn_model_best.pt
+
+
+  - full_dpf_evaluation_fixed_bands_mse:
+      do_run: True
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands_mse/models/full_rnn_model_best.pt
+
+
+
+
+
+  - neurips_final_rendering:
+      do_run: False
+      save_dir: "<root_save_dir>/neurips_final_rendering/"
+      common_parameters_file: "experiments/house3d_experiments/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_rnn_model_best.pt
+

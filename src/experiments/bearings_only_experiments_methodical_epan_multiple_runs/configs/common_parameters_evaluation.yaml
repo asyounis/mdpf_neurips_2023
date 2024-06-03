@@ -1,0 +1,104 @@
+application: bearings_only
+experiement_type: evaluation
+evaluation_type: full
+device: "cuda_auto"
+
+model_params:
+  main_model: "dpf_full_training"
+
+  sub_models:
+    proposal_model: "proposal_model"
+    observation_model: "observation_model"
+    weight_model: "weight_model"
+    particle_encoder_for_particles_model: "particle_encoder_particles"
+    particle_encoder_for_weights_model: "particle_encoder_weights"
+    initializer_model: "initializer_model"
+    resampling_weight_model: "weight_model"
+    resampling_bandwidth_model: "resampling_bandwidth_model_fixed"
+    bandwidth_model: "bandwidth_model_fixed"
+
+dataset_params_file: "experiments/bearings_only_experiments_methodical_epan_multiple_runs/configs/dataset_params_evaluation.yaml" 
+
+evaluation_params:
+  number_to_render: 2
+  number_of_particles: 25
+  render_particles: True
+  do_qualitative: False
+
+  # The parameters fro the KDE that will be used for this model
+  kde_params:
+    dims:
+      0:
+          distribution_type: "Epanechnikov"
+      1:
+          distribution_type: "Epanechnikov"
+      2:
+          distribution_type: "Von_Mises"
+
+  render_panel_params:
+    do_render_panel: False
+    # render_panel_modulo: 1
+    # render_panel_num_cols: 10
+    # render_panel_num_rows: 15
+    # render_panel_must_include_indices: []
+
+    render_panel_modulo: 4
+    render_panel_num_cols: 12
+    render_panel_num_rows: 2
+    render_panel_must_include_indices: [53, 59]
+
+
+  quantitative_evaluation_params:
+
+    do_quantitative: True
+    batch_size: 1024
+
+    metrics:
+      nll:
+        loss_params:
+          loss_type: "KDE_NLL"                
+          kde_params:
+            dims:
+              0:
+                  distribution_type: "Epanechnikov"
+              1:
+                  distribution_type: "Epanechnikov"
+              2:
+                  distribution_type: "Von_Mises"
+
+      # mse:
+      #   loss_params:
+      #     loss_type: "MSE"
+      #     angle_dims: [2]
+
+      rmse:
+        loss_params:
+          loss_type: "RMSE"
+          angle_dims: [2]
+
+          # ranges:
+          #   2:
+          #     min: -3.141592654
+          #     max: 3.141592654
+
+          # rescaled_ranges:
+          #   2:
+          #     min: -10
+          #     max: 10
+
+
+
+      # emse:
+        # loss_params:
+        #   loss_type: "ExpectedDistanceError"
+        #   angle_dims: [2]
+        #   number_of_samples_to_draw: 1000
+
+        #   kde_params:
+        #     dims:
+        #       0:
+        #           distribution_type: "Epanechnikov"
+        #       1:
+        #           distribution_type: "Epanechnikov"
+        #       2:
+        #           distribution_type: "Von_Mises"

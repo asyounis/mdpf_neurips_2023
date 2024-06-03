@@ -1,0 +1,8 @@
+dataset_params:
+  dataset_directory: "../data/House3D/"
+
+  max_sequence_length: 24
+  sparse_ground_truth_keep_modulo: 4
+
+  # percent_of_dataset_to_use: 0.25
+  # percent_of_dataset_to_use: 1.0

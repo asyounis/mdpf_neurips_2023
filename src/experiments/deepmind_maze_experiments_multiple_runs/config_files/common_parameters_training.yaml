@@ -1,0 +1,58 @@
+do_run: true
+application: deepmind_maze
+experiement_type: training
+training_type: full
+device: "cuda_auto"
+
+
+model_params:
+  main_model: "dpf_full_training"
+
+  sub_models:
+    action_encoder_model: action_encoder
+    proposal_model: "proposal_model"
+    observation_model: "observation_model"
+    weight_model: "weight_model"
+    particle_encoder_for_particles_model: "particle_encoder_particles"
+    particle_encoder_for_weights_model: "particle_encoder_weights"
+    initializer_model: "initializer_model"
+    resampling_weight_model: "weight_model"
+    resampling_bandwidth_model: "resampling_bandwidth_model"
+    bandwidth_model: "bandwidth_model"
+
+
+training_params:
+  epochs: 800
+  early_stopping_patience: 25
+  early_stopping_start_offset: 100
+
+  truncated_bptt_modulo: 4
+  number_of_particles: 25
+  training_batch_size:     64
+  validation_batch_size:   256
+
+  optimizer_type: "Adam"
+  gradient_clip_value: 500.0
+
+  lr_scheduler_params:
+    scheduler_type: "ReduceLROnPlateau"
+    threshold: 0.001
+    factor: 0.1
+    patience: 20
+    cooldown: 4
+    min_lr: 0.0000001
+    verbose: false
+    start_epoch: 0
+
+  loss_params:
+    loss_type: "KDE_NLL"              
+    kde_params:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+

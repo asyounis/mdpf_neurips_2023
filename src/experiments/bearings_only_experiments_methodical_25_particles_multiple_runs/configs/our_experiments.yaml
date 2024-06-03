@@ -1,0 +1,120 @@
+
+experiments:
+
+###############################################################################################################################################################
+###############################################################################################################################################################
+# ████████╗██████╗  █████╗ ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ 
+# ╚══██╔══╝██╔══██╗██╔══██╗██║████╗  ██║██║████╗  ██║██╔════╝ 
+#    ██║   ██████╔╝███████║██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗
+#    ██║   ██╔══██╗██╔══██║██║██║╚██╗██║██║██║╚██╗██║██║   ██║
+#    ██║   ██║  ██║██║  ██║██║██║ ╚████║██║██║ ╚████║╚██████╔╝
+#    ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+
+  - full_dpf_full_training_fixed_bands:
+      do_run: False
+      save_dir: <root_save_dir>/full_dpf_fixed_bands/
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/common_parameters_training.yaml" 
+
+      pre_trained_models: 
+        observation_model: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/individual_training/saves/weights_fixed_bands/models/observation_encoder_best.pt
+        weight_model: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/individual_training/saves/weights_fixed_bands/models/weight_model_best.pt
+        particle_encoder_for_weights_model: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/individual_training/saves/weights_fixed_bands/models/particle_encoder_for_weights_model_best.pt
+        resampling_weight_model: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/individual_training/saves/weights_fixed_bands/models/weight_model_best.pt
+
+
+      training_params:         
+
+        initializer_model_learning_rate:              "Freeze"
+        proposal_model_learning_rate:                 0.0005
+        particle_encoder_for_particles_learning_rate: 0.0005
+        particle_encoder_for_weights_learning_rate:   0.0005
+        weight_model_learning_rate:                   0.0005
+        resampling_weight_model_learning_rate:        0.0005
+        observation_model_learning_rate:              0.0005
+        bandwidth_model_learning_rate:                0.00005
+        resampling_bandwidth_model_learning_rate:     0.00005
+
+        loss_params:          
+          loss_type: "KDE_NLL"
+          kde_params:
+            dims:
+              0:
+                  distribution_type: "Normal"
+              1:
+                  distribution_type: "Normal"
+              2:
+                  distribution_type: "Von_Mises"
+
+
+  - full_dpf_full_training_fixed_bands_mse:
+      do_run: False
+      save_dir: <root_save_dir>/full_dpf_fixed_bands_mse/
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/common_parameters_training.yaml" 
+
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_dpf_model_best.pt
+
+      training_params:      
+
+        initializer_model_learning_rate:              "Freeze"
+        proposal_model_learning_rate:                 0.0001
+        particle_encoder_for_particles_learning_rate: 0.0001
+        particle_encoder_for_weights_learning_rate:   0.0001
+        weight_model_learning_rate:                   0.0001
+        resampling_weight_model_learning_rate:        0.0001
+        observation_model_learning_rate:              0.0001
+        bandwidth_model_learning_rate:                0.00001
+        resampling_bandwidth_model_learning_rate:     0.00001
+
+
+        loss_params:          
+          loss_type: "MSE"
+          angle_dims: [2]
+
+
+
+
+        
+###############################################################################################################################################################
+###############################################################################################################################################################
+# ███████╗██╗   ██╗ █████╗ ██╗     ██╗   ██╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+# ██╔════╝██║   ██║██╔══██╗██║     ██║   ██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+# █████╗  ██║   ██║███████║██║     ██║   ██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+# ██╔══╝  ╚██╗ ██╔╝██╔══██║██║     ██║   ██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+# ███████╗ ╚████╔╝ ██║  ██║███████╗╚██████╔╝██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+# ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝                                                                             
+###############################################################################################################################################################
+###############################################################################################################################################################
+
+  - full_dpf_evaluation_fixed_bands:
+      do_run: False
+      save_dir: "<root_save_dir>/full_dpf_evaluation_fixed_bands/"
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_dpf_model_best.pt
+
+
+
+  - full_dpf_evaluation_fixed_bands_mse:
+      do_run: True
+      save_dir: "<root_save_dir>/full_dpf_evaluation_fixed_bands_mse/"
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_dpf_model_best.pt
+
+
+
+  - neurips_final_rendering:
+      do_run: False
+      save_dir: "<root_save_dir>/neurips_final_rendering/"
+      common_parameters_file: "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/common_parameters_evaluation.yaml" 
+      
+      pre_trained_models: 
+        dpf_model: <root_save_dir>/full_dpf_fixed_bands/models/full_dpf_model_best.pt
+
+

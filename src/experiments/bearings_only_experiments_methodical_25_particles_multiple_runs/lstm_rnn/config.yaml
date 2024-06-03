@@ -1,0 +1,131 @@
+model_files:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/models.yaml"
+
+models:
+ 
+   dpf_full_training:
+    type: "LSTMRnn"
+
+    # RNN Parameters
+    input_dim: 16
+    output_dim: 4
+    number_of_lstm_layers: 4
+    internal_latent_space_dim: 256
+    number_of_fc_layers: 4
+    non_linear_type: "PReLU"
+
+    # If we should use the initilizer model for initing or if we should init with the true state
+    initilize_with_true_state: True
+    initial_position_std: [0.5, 0.5, 0.03]
+
+
+    # We want to encode the particles into a latent space
+    encode_particles: True
+
+    # The residual network output scaling factor
+    residual_scale_factor: [0.99, 0.99, 0.99, 0.99]
+
+    #  The type and number of observations to use at each time step
+    observation_is_patches: False
+    number_of_observation_inputs: 1
+
+    # We need a particle transformer for the deepmind dataset
+    particle_transformer: 
+      transformer_type: "BearingsOnlyTransformer"
+
+    # The parameters for the KDE that will be used for this model
+    kde:
+      dims:
+        0:
+            distribution_type: "Normal"
+        1:
+            distribution_type: "Normal"
+        2:
+            distribution_type: "Von_Mises"
+
+
+    bandwidth_model_fixed:
+      type: "FixedBandwith"
+      starting_bandwidths: [4.0, 4.0, 0.5]
+      min_bandwidths: [0.1, 0.1, 0.001]
+
+save_dir_root: experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/lstm_rnn/saves/
+
+experiments_import:
+  - "experiments/bearings_only_experiments_methodical_25_particles_multiple_runs/configs/generated/lstm_experiments.yaml"
+
+
+experiments_local_override:
+  - full_dpf_full_training_fixed_bands_mse_000:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_001:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_002:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_003:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_004:
+      do_run: False
+
+
+
+
+  - full_dpf_full_training_fixed_bands_mse_005:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_006:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_007:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_008:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_009:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_mse_010:
+      do_run: False
+
+
+  - full_dpf_full_training_fixed_bands_bands_000:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_001:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_002:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_003:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_004:
+      do_run: False
+
+
+
+
+  - full_dpf_full_training_fixed_bands_bands_005:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_006:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_007:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_008:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_009:
+      do_run: False
+
+  - full_dpf_full_training_fixed_bands_bands_010:
+      do_run: False
+

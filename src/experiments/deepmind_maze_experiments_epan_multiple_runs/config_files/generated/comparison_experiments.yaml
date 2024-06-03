@@ -1,0 +1,436 @@
+experiments:
+- full_dpf_full_training_maze_1_000:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_1.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_000/full_dpf_maze_1_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_maze_1/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_1_001:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_1.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_001/full_dpf_maze_1_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_maze_1/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_1_002:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_1.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_002/full_dpf_maze_1_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_maze_1/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_1_003:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_1.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_003/full_dpf_maze_1_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_maze_1/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_1_004:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_1.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_004/full_dpf_maze_1_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_maze_1/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_2_000:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_2.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_000/full_dpf_maze_2_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_maze_2/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_2_001:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_2.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_001/full_dpf_maze_2_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_maze_2/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_2_002:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_2.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_002/full_dpf_maze_2_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_maze_2/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_2_003:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_2.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_003/full_dpf_maze_2_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_maze_2/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_2_004:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_2.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_004/full_dpf_maze_2_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_maze_2/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_3_000:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_3.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_000/full_dpf_maze_3_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_maze_3/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_3_001:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_3.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_001/full_dpf_maze_3_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_maze_3/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_3_002:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_3.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_002/full_dpf_maze_3_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_maze_3/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_3_003:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_3.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_003/full_dpf_maze_3_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_maze_3/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_full_training_maze_3_004:
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_training.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_training_maze_3.yaml
+    do_run: false
+    pre_trained_models:
+      dpf_model: experiments/deepmind_maze_experiments_multiple_runs/<experiment_name_replacement>/saves/run_004/full_dpf_maze_3_mse/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_maze_3/
+    training_params:
+      action_encoder_model_learning_rate: Freeze
+      bandwidth_model_learning_rate: 0.0005
+      initializer_model_learning_rate: Freeze
+      observation_model_learning_rate: Freeze
+      particle_encoder_for_particles_learning_rate: Freeze
+      particle_encoder_for_weights_learning_rate: Freeze
+      proposal_model_learning_rate: Freeze
+      resampling_bandwidth_model_learning_rate: 0.0005
+      resampling_weight_model_learning_rate: Freeze
+      weight_model_learning_rate: Freeze
+- full_dpf_evaluation_maze_1_000:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_1.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_000/full_dpf_maze_1/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_evaluation_maze_1/
+- full_dpf_evaluation_maze_1_001:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_1.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_001/full_dpf_maze_1/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_evaluation_maze_1/
+- full_dpf_evaluation_maze_1_002:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_1.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_002/full_dpf_maze_1/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_evaluation_maze_1/
+- full_dpf_evaluation_maze_1_003:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_1.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_003/full_dpf_maze_1/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_evaluation_maze_1/
+- full_dpf_evaluation_maze_1_004:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_1.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_004/full_dpf_maze_1/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_evaluation_maze_1/
+- full_dpf_evaluation_maze_2_000:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_2.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_000/full_dpf_maze_2/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_evaluation_maze_2/
+- full_dpf_evaluation_maze_2_001:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_2.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_001/full_dpf_maze_2/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_evaluation_maze_2/
+- full_dpf_evaluation_maze_2_002:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_2.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_002/full_dpf_maze_2/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_evaluation_maze_2/
+- full_dpf_evaluation_maze_2_003:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_2.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_003/full_dpf_maze_2/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_evaluation_maze_2/
+- full_dpf_evaluation_maze_2_004:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_2.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_004/full_dpf_maze_2/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_evaluation_maze_2/
+- full_dpf_evaluation_maze_3_000:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_3.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_000/full_dpf_maze_3/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_000/full_dpf_evaluation_maze_3/
+- full_dpf_evaluation_maze_3_001:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_3.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_001/full_dpf_maze_3/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_001/full_dpf_evaluation_maze_3/
+- full_dpf_evaluation_maze_3_002:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_3.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_002/full_dpf_maze_3/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_002/full_dpf_evaluation_maze_3/
+- full_dpf_evaluation_maze_3_003:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_3.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_003/full_dpf_maze_3/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_003/full_dpf_evaluation_maze_3/
+- full_dpf_evaluation_maze_3_004:
+    application: deepmind_maze
+    common_parameters_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/common_parameters_evaluation.yaml
+    dataset_params_file: experiments/deepmind_maze_experiments_epan_multiple_runs/config_files/dataset_params_evaluation_maze_3.yaml
+    device: cuda_auto
+    do_run: true
+    evaluation_type: full
+    experiement_type: evaluation
+    pre_trained_models:
+      dpf_model: <root_save_dir>/run_004/full_dpf_maze_3/models/full_dpf_model_best.pt
+    save_dir: <root_save_dir>/run_004/full_dpf_evaluation_maze_3/
