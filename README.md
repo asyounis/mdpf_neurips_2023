@@ -26,12 +26,15 @@ Particle filters flexibly represent multiple posterior modes nonparametrically, 
 
 
 ## Running Experiments
-The directo
+The config files and run files for all models for all experiments is located in "./src/experiments/".
 
 
 
-Below we out
-| Model Name   | Directory Name |
+
+
+Note that the names of experiments in the code may differ from that of the paper (aligning the names would take a lot of time and could break much of the code). 
+Below we give a mapping of method names in the paper to that in the code.
+| Paper Method Name   | Code Directory Name |
 | --------     | ------- |
 | TG-MDPF      | experiment0001    |
 | IRG-MDPF     | experiment0002_implicit     |
