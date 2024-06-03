@@ -1,4 +1,0 @@
-full_dpf_full_training_fixed_bands_005
-Running on device: cuda:0
-
-============================================================================

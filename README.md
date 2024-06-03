@@ -14,6 +14,30 @@ Particle filters flexibly represent multiple posterior modes nonparametrically, 
 	cd data_preprocessing/Deepmind/splits && python3 main.py
 	```
 
+#### House3D Dataset
+1. Download the data using the instructions from [link](https://github.com/AdaCompNUS/pfnet)
+2. Place the data in the "./data" directory
+3. Run the data-preprocessing scripts:
+	```
+	cd data_preprocessing/House3D/splits && python3 main.py
+	cd data_preprocessing/House3D/splits && python3 main.py
+	cd data_preprocessing/House3D/splits && python3 generate_ordering_and_split.py
+	```
+
+
+## Running Experiments
+The directo
+
+
+
+Below we out
+| Model Name   | Directory Name |
+| --------     | ------- |
+| TG-MDPF      | experiment0001    |
+| IRG-MDPF     | experiment0002_implicit     |
+| MDPF         | experiment0002_importance    |
+| A-MDPF       | experiment0003_importance_init   |
+
 
 
 ## BibTex citation
